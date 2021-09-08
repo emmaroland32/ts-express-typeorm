@@ -37,7 +37,7 @@
     "commitLimit": false
   },
   "scripts": {
-    "dev": "tsc && npm run kickstart:dev && nodemon",
+    "dev": "tsc && nodemon",
     "init": "npm-run-all -s init:*",
     "init:env": "cp ./src/env/template.env ./src/env/development.env && cp ./src/env/template.env ./src/env/test.env && cp ./src/env/template.env ./src/env/staging.env && cp ./src/env/template.env ./src/env/production.env",
     "init:repository": "rm -rf ./.git && git init && git add . --all && git commit -m \"First commit\"",

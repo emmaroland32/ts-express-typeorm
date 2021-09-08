@@ -1,8 +1,9 @@
 import 'reflect-metadata';
 
-import { createConnection, Connection } from 'typeorm';
-import { ENV } from '@config/environment.config';
-import { Logger } from '@services/logger.service';
+import {Connection, createConnection} from 'typeorm';
+
+import {ENV} from '@config/environment.config';
+import {Logger} from '@services/logger.service';
 
 /**
  * Typeorm default configuration
@@ -10,14 +11,14 @@ import { Logger } from '@services/logger.service';
  * @see https://http://typeorm.io
  */
 export class Database {
-
-  constructor () { }
+  constructor() {}
 
   /**
    * @description Connect to MySQL server
    * @async
    */
-  static connect(options: Record<string,unknown>): void {
+  static connect(options: Record<string, unknown>): void {
+    console.log(options);
     createConnection({
       type: options.TYPE,
       name: options.NAME,
@@ -30,14 +31,21 @@ export class Database {
       subscribers: options.SUBSCRIBERS,
       synchronize: options.SYNC,
       logging: options.LOG,
-      cache: options.CACHE
+      cache: options.CACHE,
     } as any)
-    .then( (connection: Connection) => {
-      Logger.log('info', `Connection to MySQL server established on port ${options.PORT as string} (${ENV})`);
-    })
-    .catch( (error: Error) => {
-      process.stdout.write(`error: ${error.message}`);
-      process.exit(1);
-    });
+      .then((connection: Connection) => {
+        Logger.log(
+          'info',
+          `Connection to ${
+            options.TYPE as string
+          } database server established on port ${
+            options.PORT as string
+          } (${ENV})`
+        );
+      })
+      .catch((error: Error) => {
+        process.stdout.write(`error: ${error.message}`);
+        process.exit(1);
+      });
   }
 }
